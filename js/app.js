@@ -25,15 +25,21 @@ document.getElementById('generate-pin').addEventListener('click', function () {
     displayPin.value = pin;
 });
 
-// event delegate to all calculator button
+// add event listener to all calculator button
 document.getElementById('calculator').addEventListener('click', function (event) {
+    // get the number typed. innerText is string value
     const number = event.target.innerText;
     const typedNumberField = document.getElementById('typed-numbers');
     const previousTypedNumber = typedNumberField.value;
+    // checking if the button clicked is number or not.
+    // isNaN() converts the string("37" to number 37).  
+    // so it returns false when the input string can not be converted into numbers.
     if (isNaN(number)) {
+        // C button is to clear calculator display
         if (number === 'C') {
             typedNumberField.value = '';
         }
+        // < button is to clear last digit on calculator display
         else if (number === '<') {
             const digits = previousTypedNumber.split('');
             digits.pop();
@@ -41,10 +47,31 @@ document.getElementById('calculator').addEventListener('click', function (event)
             typedNumberField.value = remainingDigits;
         }
     }
-
+    // add new number in the calculator display
     else {
-        const newTypedNumber = number + previousTypedNumber;
+        const newTypedNumber = previousTypedNumber + number;
         typedNumberField.value = newTypedNumber;
 
+    }
+});
+
+// task: check display pin and calculator display typed numbers
+// add event listener to verify pin button
+document.getElementById('verify-pin-btn').addEventListener('click', function () {
+    const displayPinField = document.getElementById('display-pin');
+    const displayPin = displayPinField.value;
+
+    const typedNumbersField = document.getElementById('typed-numbers');
+    const typedNumber = typedNumbersField.value;
+    const pinSuccessMessage = document.getElementById('pin-success');
+    const pinFailureMessage = document.getElementById('pin-failure');
+
+    if (typedNumber === displayPin) {
+        pinSuccessMessage.style.display = 'block';
+        pinFailureMessage.style.display = 'none';
+    }
+    else {
+        pinFailureMessage.style.display = 'block';
+        pinSuccessMessage.style.display = 'none';
     }
 });
